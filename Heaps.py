@@ -1,16 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Nov 13 11:55:11 2019
-
-@author: vasto
+Author:Ruben Bustamante
+Instructor: Diego Aguirre
+TA:Gerarado Barraza
+Course: CS 2302
+Assigment: lab 5 part B
+Date of last modification: 11/20/2019
+Purpose of program:uses heaps to find the most occurneces of list of strings
 """
 
 import math
+class node:
+    def __init__(self, word, count):
+        self.word = word
+        self.count = count
 class MaxHeap(object):
     
     def __init__(self):
         
         self.tree = []
+        self.curr_size =0
         
     def is_empty(self):
         
@@ -36,6 +45,9 @@ class MaxHeap(object):
         if c >=len(self.tree):
             return -math.inf
         return self.tree[c]
+    def size(self):
+        self.curr_size =len(self.tree)
+        return self.curr_size
     
     def insert(self, item):
         
@@ -64,12 +76,49 @@ class MaxHeap(object):
         max_child_index = 2*i +1 if self.left_child(i)> self.right_child(i) else  2*i+2
         self.tree[i], self.tree[max_child_index] = self.tree[max_child_index], self.tree[i]
         self._percolate_down(max_child_index)
-    def heap_sort(self):
-        return 
-heap = MaxHeap()
-l = ['cat','bat', 'lab']
-for i in l:
-    heap.insert(i)
-i =0
-print(heap.tree)
+        
+def heap_sort(alist):
     
+    h = MaxHeap()
+    
+    for word in alist:
+        h.insert(word)
+        
+    i = len(alist) - 1
+    
+    while not h.is_empty():
+        
+        alist[i] = h.extract_max()
+        i -= 1
+        
+        return alist
+    
+def count_dict(list_words, k):
+        
+        my_dict ={}
+        heap = MaxHeap()
+        freq =[]
+        for i in range(len(list_words)):# uset dict to count each string and number of times 
+            if list_words[i] in my_dict:
+                my_dict[list_words[i]]+=1
+            else:
+                my_dict[list_words[i]]=1
+            
+        k = max(my_dict.values())# update ky to the max number of occurences
+        
+        for key in my_dict.keys():# store keys and values in tree
+            heap.insert((key, my_dict[key]))
+        
+        for key,value in heap.tree:# campare k to the value in the tree
+            if k == value:
+                freq.append((key,value))
+                freq.sort()# sort the strings with most apperances
+        return freq            
+
+def main():
+    words = ['cat','bat','bat', 'lab','Lab','cat']
+    lower_case =[]
+    for i in words:# converts all string to lower case 
+        lower_case.append(i.lower())
+    print(count_dict(lower_case,0))
+main()
