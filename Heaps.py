@@ -113,10 +113,13 @@ def count_dict(list_words, k):
             if k == value:
                 freq.append((key,value))
                 freq.sort()# sort the strings with most apperances
+            if key not in freq and k !=value:# adds the rest of the list
+                freq.append((key, value))
+                
         return freq            
 
 def main():
-    words = ['cat','bat','bat', 'lab','Lab','cat']
+    words = ['cat','bat','bat', 'lab','Lab']
     lower_case =[]
     for i in words:# converts all string to lower case 
         lower_case.append(i.lower())
