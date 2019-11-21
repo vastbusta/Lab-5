@@ -8,7 +8,7 @@ Assigment: lab 5 part B
 Date of last modification: 11/20/2019
 Purpose of program:uses heaps to find the most occurneces of list of strings
 """
-
+import time 
 import math
 class node:
     def __init__(self, word, count):
@@ -98,6 +98,7 @@ def count_dict(list_words, k):
         my_dict ={}
         heap = MaxHeap()
         freq =[]
+        freq2=[]
         for i in range(len(list_words)):# uset dict to count each string and number of times 
             if list_words[i] in my_dict:
                 my_dict[list_words[i]]+=1
@@ -105,21 +106,23 @@ def count_dict(list_words, k):
                 my_dict[list_words[i]]=1
             
         k = max(my_dict.values())# update ky to the max number of occurences
-        
+
         for key in my_dict.keys():# store keys and values in tree
             heap.insert((key, my_dict[key]))
         
         for key,value in heap.tree:# campare k to the value in the tree
             if k == value:
                 freq.append((key,value))
-                freq.sort()# sort the strings with most apperances
-            if key not in freq and k !=value:# adds the rest of the list
-                freq.append((key, value))
                 
-        return freq            
-
+            if key not in freq and k !=value:# adds the rest of the list
+                freq2.append((key, value))
+        freq.sort()
+        freq2.sort()     
+        return freq, freq2
+        
+        
 def main():
-    words = ['cat','bat','bat', 'lab','Lab']
+    words = ['cat','lab', 'lab', 'cat', 'bat','dog','bob','bob','i']
     lower_case =[]
     for i in words:# converts all string to lower case 
         lower_case.append(i.lower())
